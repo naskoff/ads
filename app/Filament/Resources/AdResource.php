@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\AdResource\Pages;
+use App\Filament\Resources\AdTemplateResource\RelationManagers\TemplateRelationManager;
 use App\Models\Ad;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -59,9 +60,6 @@ class AdResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([
-                //
-            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
@@ -76,7 +74,7 @@ class AdResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            TemplateRelationManager::class
         ];
     }
 
