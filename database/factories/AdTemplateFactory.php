@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\AdTemplateStatus;
+use App\Models\Ad;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,11 @@ class AdTemplateFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'ad_id' => Ad::factory(),
+            'status' => fake()->randomElement(AdTemplateStatus::cases())->value,
+            'title' => fake()->sentence(),
+            'description' => fake()->paragraph(),
+            'canva_url' => fake()->url(),
         ];
     }
 }

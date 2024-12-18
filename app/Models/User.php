@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Ad::class, 'user_id');
     }
+
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class, 'user_id');
+    }
 }

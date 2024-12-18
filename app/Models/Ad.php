@@ -1,21 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
+use App\Enums\AdStatus;
+use Database\Factories\AdFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Facades\Auth;
 
 class Ad extends Model
 {
-    protected $table = 'ads';
-    protected $fillable = ['title', 'description', 'url'];
+    /** @use HasFactory<AdFactory> */
+    use HasFactory;
 
-    protected static function booted(): void
-    {
-        static::creating(fn(self $ad) => $ad->user_id = Auth::id());
-    }
+    protected $table = 'ads';
+
+    protected $fillable = ['user_id', 'title', 'description', 'url'];
 
     public function user(): BelongsTo
     {
@@ -25,5 +28,15 @@ class Ad extends Model
     public function template(): HasOne
     {
         return $this->hasOne(AdTemplate::class, 'ad_id');
+    }
+
+    public function updateStatus(): void
+    {
+        $this->status = match ($this->template()->exists()) {
+            true => AdStatus::Completed->value,
+            default => AdStatus::InProgress->value,
+        };
+
+        $this->save();
     }
 }

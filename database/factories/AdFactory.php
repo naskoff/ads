@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\AdStatus;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,11 @@ class AdFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'status' => fake()->randomElement(AdStatus::cases())->value,
+            'title' => fake()->sentence(),
+            'description' => fake()->paragraph(),
+            'url' => fake()->url(),
         ];
     }
 }

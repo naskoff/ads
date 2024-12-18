@@ -44,7 +44,7 @@ class AdResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
@@ -61,6 +61,7 @@ class AdResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -74,7 +75,7 @@ class AdResource extends Resource
     public static function getRelations(): array
     {
         return [
-            TemplateRelationManager::class
+            TemplateRelationManager::class,
         ];
     }
 
